@@ -60,6 +60,11 @@ class TestTerminalOutput(object):
         ref = round(Decimal(eval(expr)), 4)
         result = subprocess.check_output(["bashcalc", expr, "-r 4"])
         assert result == str.encode(f"{ref}\n")
+        
+    def test_terminal_rounderror(self):
+        expr = "10"
+        result = subprocess.check_output(["bashcalc", expr, "-r 100"])
+        assert result[6:11] == str.encode("ERROR")
 
     def test_terminal_interger(self):
         expr = "1 / 3"
@@ -79,20 +84,20 @@ class TestTerminalError(object):
     def test_name_error(self):
         expr = "ex"
         try:
-            result = subprocess.check_output(["bashcalc", expr])
+            subprocess.check_output(["bashcalc", expr])
         except subprocess.CalledProcessError:
             assert 1
 
     def test_type_error(self):
         expr = "1*exp"
         try:
-            result = subprocess.check_output(["bashcalc", expr])
+            subprocess.check_output(["bashcalc", expr])
         except subprocess.CalledProcessError:
             assert 1
 
     def test_expression_error(self):
         expr = "1*expp(1)"
         try:
-            result = subprocess.check_output(["bashcalc", expr])
+            subprocess.check_output(["bashcalc", expr])
         except subprocess.CalledProcessError:
             assert 1

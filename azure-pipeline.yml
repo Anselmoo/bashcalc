@@ -37,7 +37,7 @@ steps:
     pip install black
     pip install flake8
     pip install pydocstyle
-    flake8 bashcalc/ --count --max-line-length=88 --ignore=W293,W291,W503 --statistics
+    flake8 bashcalc/ --count --max-line-length=88 --ignore=F401,F403,F405,W293 --statistics --doctestss
     black bashcalc/ --check -v
     pydocstyle bashcalc/
   displayName: 'Install dependencies'
