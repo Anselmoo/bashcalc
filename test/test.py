@@ -96,3 +96,10 @@ class TestTerminalError(object):
             subprocess.check_output(["bashcalc", expr])
         except subprocess.CalledProcessError:
             assert 1
+
+    def test_round_error(self):
+        expr = "10"
+        try:
+            subprocess.check_output(["bashcalc", expr, "-r 100"])
+        except subprocess.CalledProcessError:
+            assert 1
