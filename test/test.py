@@ -101,7 +101,6 @@ class TestTerminalError(object):
         except subprocess.CalledProcessError:
             assert 1
 
-
 class TestBashCalc(object):
     def test_case_empty(self):
         args = {
