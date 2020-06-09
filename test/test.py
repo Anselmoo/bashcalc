@@ -207,6 +207,19 @@ class TestBashCalc(object):
             "version": None,
         }
         assert bashcalc.bashcalc(args) == "2.00"
+        
+    def test_case_science(self):
+        args = {
+            "infile": "1",
+            "color": "",
+            "bold": None,
+            "underlined": None,
+            "int": False,
+            "round": None,
+            "science": 4,
+            "version": None,
+        }
+        assert bashcalc.bashcalc(args) == "1.0000E+0"
 
     def test_case_round_error(self):
         args = {
@@ -220,6 +233,7 @@ class TestBashCalc(object):
             "version": None,
         }
         assert bashcalc.bashcalc(args) == "1"
+        
 
     def test_case_expr_error(self):
         args = {
