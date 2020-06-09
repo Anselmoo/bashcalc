@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Bashcalc: Evaluating math expression from terminal in terminal."""
 import argparse
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 from math import *
 import sys
 
