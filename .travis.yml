@@ -22,9 +22,10 @@ before_script:
   - pydocstyle -e -s bashcalc/
   # install bashcalc
   - python setup.py install
-  # install pytest, coverage, and codecov for report
+  # install pytest, mock, coverage, and codecov for report
   - pip install pytest
   - pip install pytest-sugar
+  - pip install mock
   - pip install coverage
   - pip install codecov
 

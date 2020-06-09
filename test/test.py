@@ -4,6 +4,7 @@ from math import *
 import subprocess
 from bashcalc import bashcalc
 
+import mock
 import pytest
 
 
@@ -207,7 +208,7 @@ class TestBashCalc(object):
             "version": None,
         }
         assert bashcalc.bashcalc(args) == "2.00"
-        
+
     def test_case_science(self):
         args = {
             "infile": "1",
@@ -233,7 +234,6 @@ class TestBashCalc(object):
             "version": None,
         }
         assert bashcalc.bashcalc(args) == "1"
-        
 
     def test_case_expr_error(self):
         args = {
@@ -282,3 +282,11 @@ class TestBashCalc(object):
             bashcalc.bashcalc(args)
         assert pytest_wrapped_e.type == SystemExit
         assert pytest_wrapped_e.value.code == 1
+
+    def test_call_main(self):
+        # with pytest.raises(SystemExit) as pytest_wrapped_e:
+        with mock.patch.object(bashcalc, "command_line_runner", return_value=1):
+            with mock.patch.object(bashcalc, "__name__", "__main__"):
+                with mock.patch.object(bashcalc.command_line_runner, "1") as mock_exit:
+                    bashcalc.command_line_runner()
+                    assert 1
