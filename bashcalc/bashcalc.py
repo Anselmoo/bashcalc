@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Bashcalc: Evaluating math expression from terminal in terminal."""
 import argparse
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 from math import *
 import sys
 
@@ -52,7 +52,7 @@ class ColorFont:
     resethidden = "\033[28m"
 
 
-def log(msg, mode=None):
+def log_messages(msg, mode=None):
     """Print messages to display.
     
     Parameters
@@ -111,7 +111,7 @@ def bashcalc(args):
             try:
                 result = round(result, args["round"])
             except InvalidOperation as e_msg:
-                log(e_msg, mode=1)
+                log_messages(e_msg, mode=1)
 
         if args["int"]:
             result = int(result)
@@ -122,9 +122,9 @@ def bashcalc(args):
 
         result = style(result, args)
 
-        log(result)
+        log_messages(result)
     except (NameError, TypeError, SyntaxError) as e_msg:
-        log(e_msg, mode=1)
+        log_messages(e_msg, mode=1)
         sys.exit(1)
 
 
@@ -226,10 +226,10 @@ def command_line_runner():
     args = get_args()
 
     if args["version"]:
-        log(__version__)
+        log_messages(__version__)
 
     if not args["infile"]:
-        log("Missing input!", mode=1)
+        log_messages("Missing input!", mode=1)
         return
 
     bashcalc(args)
