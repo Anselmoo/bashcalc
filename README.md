@@ -1,3 +1,8 @@
+[![Travis (.com)](https://img.shields.io/travis/com/Anselmoo/bashcalc?logo=travis)](https://travis-ci.com/Anselmoo/bashcalc)
+[![Codecov](https://img.shields.io/codecov/c/github/Anselmoo/bashcalc?logo=Codecov)](https://codecov.io/gh/Anselmoo/bashcalc)
+[![CodeFactor](https://img.shields.io/codefactor/grade/github/Anselmoo/bashcalc?logo=codefactor)](https://www.codefactor.io/repository/github/anselmoo/bashcalc)
+[![Code Style: Black](https://img.shields.io/badge/code%20style-black-black.svg)](https://github.com/ambv/black)
+[![GitHub](https://img.shields.io/github/license/Anselmoo/bashcalc?logo=GitHub)](https://github.com/Anselmoo/bashcalc/blob/master/LICENSE)
 # bashcalc
 ## Instant calculating from the terminal into the terminal
 ---
