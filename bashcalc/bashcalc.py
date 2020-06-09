@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-"""Bashcalc: Evaluating math expression from terminal in terminal"""
+"""Bashcalc: Evaluating math expression from terminal in terminal."""
 import argparse
-from decimal import *
+from decimal import Decimal
 from math import *
 import sys
 
@@ -54,6 +54,7 @@ class ColorFont:
 
 def log(msg, mode=None):
     """Print messages to display.
+    
     Parameters
     ----------
     msg : str
@@ -105,7 +106,7 @@ def bashcalc(args):
     result = 0
     try:
         result = Decimal(eval(args["infile"]))
-    
+
         if args["round"]:
             try:
                 result = round(result, args["round"])
@@ -124,7 +125,9 @@ def bashcalc(args):
         log(result)
     except (NameError, TypeError, SyntaxError) as e_msg:
         log(e_msg, mode=1)
-    
+        sys.exit(1)
+
+
 def get_args():
     """Get the parser arguments from the command line.
     

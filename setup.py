@@ -8,11 +8,31 @@ import bashcalc
 __author__ = "Anselm Hahn"
 __email__ = "Anselm.Hahn@gmail.com"
 
+
+def long_description():
+    with open(Path("./README.md")) as f_1:
+        readme = f_1.read()
+    with open(Path("./CHANGES.md")) as f_2:
+        changes = f_2.read()
+    with open(Path("./TODO.md")) as f_3:
+        todo = f_3.read()
+
+    long_description = (
+        f"{readme}\n\n"
+        f"CHANGES\n"
+        f"-------\n"
+        f"{changes}\n"
+        f"TODO\n"
+        f"----\n"
+        f"{todo}\n"
+    )
+    return long_description
+
 setup(
     name="bashcalc",
     version=bashcalc.__version__,
     description="Instant calculating from the terminal into the terminal",
-    long_description=open("README.md").read(),
+    long_description=long_description(),
     long_description_content_type="text/markdown",
     packages=["bashcalc",],
     py_modules=[path.stem for path in Path(".").glob("bashcalc/*.py")],

@@ -1,7 +1,8 @@
-import subprocess
-import bashcalc
+from decimal import Decimal
 from math import *
-from decimal import *
+import subprocess
+
+import subprocess
 
 class TestTerminalInit(object):
     def test_terminal_help(self):
