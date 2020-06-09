@@ -30,7 +30,7 @@ before_script:
   
 # command to run tests
 script:
-  - coverage run -m pytest -v
+  - coverage run -m pytest
   # Generate test coverage report and upload to codecov.io
   - coverage report -m
 after_success:
