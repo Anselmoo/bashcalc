@@ -2,6 +2,10 @@ from decimal import Decimal
 from math import *
 
 import subprocess
+from bashcalc import bashcalc
+
+import mock
+import pytest
 
 
 class TestTerminalInit(object):
@@ -97,9 +101,191 @@ class TestTerminalError(object):
         except subprocess.CalledProcessError:
             assert 1
 
-    def test_round_error(self):
-        expr = "10"
-        try:
-            subprocess.check_output(["bashcalc", expr, "-r 100"])
-        except subprocess.CalledProcessError:
-            assert 1
+class TestBashCalc(object):
+    def test_case_empty(self):
+        args = {
+            "infile": "",
+            "color": None,
+            "bold": False,
+            "underlined": False,
+            "int": False,
+            "round": None,
+            "science": None,
+            "version": False,
+        }
+        bashcalc.command_line_runner(args)
+        assert 1
+
+    def test_case_version(self):
+        args = {
+            "infile": "2",
+            "color": None,
+            "bold": False,
+            "underlined": False,
+            "int": False,
+            "round": None,
+            "science": None,
+            "version": True,
+        }
+        bashcalc.command_line_runner(args)
+        assert 1
+
+    def test_case_simple(self):
+        args = {
+            "infile": "2",
+            "color": None,
+            "bold": False,
+            "underlined": False,
+            "int": False,
+            "round": None,
+            "science": None,
+            "version": True,
+        }
+        assert bashcalc.bashcalc(args) == "2"
+
+    def test_case_advance(self):
+        args = {
+            "infile": "2**2",
+            "color": None,
+            "bold": False,
+            "underlined": False,
+            "int": False,
+            "round": None,
+            "science": None,
+            "version": True,
+        }
+        assert bashcalc.bashcalc(args) == "4"
+
+    def test_case_color_font(self):
+        args = {
+            "infile": "2",
+            "color": "green",
+            "bold": True,
+            "underlined": True,
+            "int": False,
+            "round": None,
+            "science": None,
+            "version": None,
+        }
+        assert bashcalc.bashcalc(args) == "\x1b[4m\x1b[1m\x1b[32m2"
+
+    def test_case_int(self):
+        args = {
+            "infile": "2.0",
+            "color": "",
+            "bold": None,
+            "underlined": None,
+            "int": True,
+            "round": None,
+            "science": None,
+            "version": None,
+        }
+        assert bashcalc.bashcalc(args) == "2"
+
+    def test_case_V(self):
+        args = {
+            "infile": "2.0",
+            "color": "",
+            "bold": None,
+            "underlined": None,
+            "int": True,
+            "round": None,
+            "science": None,
+            "version": None,
+        }
+        assert bashcalc.bashcalc(args) == "2"
+
+    def test_case_round(self):
+        args = {
+            "infile": "2.0009",
+            "color": "",
+            "bold": None,
+            "underlined": None,
+            "int": False,
+            "round": 2,
+            "science": None,
+            "version": None,
+        }
+        assert bashcalc.bashcalc(args) == "2.00"
+
+    def test_case_science(self):
+        args = {
+            "infile": "1",
+            "color": "",
+            "bold": None,
+            "underlined": None,
+            "int": False,
+            "round": None,
+            "science": 4,
+            "version": None,
+        }
+        assert bashcalc.bashcalc(args) == "1.0000E+0"
+
+    def test_case_round_error(self):
+        args = {
+            "infile": "1",
+            "color": "",
+            "bold": None,
+            "underlined": None,
+            "int": False,
+            "round": 1000,
+            "science": None,
+            "version": None,
+        }
+        assert bashcalc.bashcalc(args) == "1"
+
+    def test_case_expr_error(self):
+        args = {
+            "infile": "1*exp",
+            "color": "",
+            "bold": None,
+            "underlined": None,
+            "int": False,
+            "round": 1000,
+            "science": None,
+            "version": None,
+        }
+        with pytest.raises(SystemExit) as pytest_wrapped_e:
+            bashcalc.bashcalc(args)
+        assert pytest_wrapped_e.type == SystemExit
+        assert pytest_wrapped_e.value.code == 1
+
+    def test_case_name_error(self):
+        args = {
+            "infile": "ex",
+            "color": "",
+            "bold": None,
+            "underlined": None,
+            "int": False,
+            "round": 1000,
+            "science": None,
+            "version": None,
+        }
+        with pytest.raises(SystemExit) as pytest_wrapped_e:
+            bashcalc.bashcalc(args)
+        assert pytest_wrapped_e.type == SystemExit
+        assert pytest_wrapped_e.value.code == 1
+
+    def test_case_type_error(self):
+        args = {
+            "infile": "1*\1",
+            "color": "",
+            "bold": None,
+            "underlined": None,
+            "int": False,
+            "round": 1000,
+            "science": None,
+            "version": None,
+        }
+        with pytest.raises(SystemExit) as pytest_wrapped_e:
+            bashcalc.bashcalc(args)
+        assert pytest_wrapped_e.type == SystemExit
+        assert pytest_wrapped_e.value.code == 1
+
+    def test_call_main(self):
+        # with pytest.raises(SystemExit) as pytest_wrapped_e:
+        with mock.patch.object(bashcalc, "command_line_runner", return_value=1):
+            with mock.patch.object(bashcalc, "__name__", "__main__"):
+                with mock.patch.object(bashcalc.command_line_runner, "1") as mock_exit:
+                    bashcalc.command_line_runner()
+                    assert 1

@@ -1,15 +1,11 @@
 #!/usr/bin/env python
 """Bashcalc: Evaluating math expression from terminal in terminal."""
 import argparse
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 from math import *
 import sys
 
-
-try:
-    from . import __version__
-except ImportError:
-    from __init__ import __version__
+from . import __version__
 
 
 class ColorFont:
@@ -52,7 +48,7 @@ class ColorFont:
     resethidden = "\033[28m"
 
 
-def log(msg, mode=None):
+def log_message(msg, mode=None):
     """Print messages to display.
     
     Parameters
@@ -111,7 +107,7 @@ def bashcalc(args):
             try:
                 result = round(result, args["round"])
             except InvalidOperation as e_msg:
-                log(e_msg, mode=1)
+                log_message(e_msg, mode=1)
 
         if args["int"]:
             result = int(result)
@@ -122,9 +118,10 @@ def bashcalc(args):
 
         result = style(result, args)
 
-        log(result)
+        log_message(result)
+        return result
     except (NameError, TypeError, SyntaxError) as e_msg:
-        log(e_msg, mode=1)
+        log_message(e_msg, mode=1)
         sys.exit(1)
 
 
@@ -221,15 +218,25 @@ def get_args():
     return args
 
 
-def command_line_runner():
-    """Run bashcalc() via command line."""
+def command_line_runner(opt=None):
+    """Run bashcalc() via command line.
+    
+    Parameters
+    ----------
+    opt : dict, optional
+        Optional Dictionary for modifying the parser arguments; default is None.
+    """
     args = get_args()
+    # For pytest
+    if opt:
+        for item, value in opt.items():
+            args[item] = value
 
     if args["version"]:
-        log(__version__)
+        log_message(__version__)
 
     if not args["infile"]:
-        log("Missing input!", mode=1)
+        log_message("Missing input!", mode=1)
         return
 
     bashcalc(args)

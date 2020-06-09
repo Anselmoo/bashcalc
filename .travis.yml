@@ -13,7 +13,7 @@ before_script:
   - pip install black
   - pip install pydocstyle
   # stop the build if there are Python syntax errors or undefined names.
-  - flake8 bashcalc/ --count --max-line-length=88 --ignore=F403,F405,W293 --statistics --doctests
+  - flake8 bashcalc/ --count --max-line-length=88 --ignore=F401,F403,F405,W293 --statistics --doctests
   # stop the build if there are Python syntax follows not the black style.
   - black bashcalc/ --check -v
   # exit-zero treats all errors as warnings.
@@ -22,9 +22,10 @@ before_script:
   - pydocstyle -e -s bashcalc/
   # install bashcalc
   - python setup.py install
-  # install pytest, coverage, and codecov for report
+  # install pytest, mock, coverage, and codecov for report
   - pip install pytest
   - pip install pytest-sugar
+  - pip install mock
   - pip install coverage
   - pip install codecov
 
