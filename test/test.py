@@ -74,21 +74,24 @@ class TestTerminalOutput(object):
         digits = 5
         result = subprocess.check_output(["bashcalc", expr, f"-s {digits}"])
         assert result == str.encode(f"{ref:.{digits}E}\n")
-        
+
+
 class TestTerminalError(object):
-    def  test_name_error(self):
+    def test_name_error(self):
         expr = "ex"
         try:
             result = subprocess.check_output(["bashcalc", expr])
         except subprocess.CalledProcessError:
             assert 1
-    def  test_type_error(self):
+
+    def test_type_error(self):
         expr = "1*exp"
         try:
             result = subprocess.check_output(["bashcalc", expr])
         except subprocess.CalledProcessError:
             assert 1
-    def  test_expression_error(self):
+
+    def test_expression_error(self):
         expr = "1*expp(1)"
         try:
             result = subprocess.check_output(["bashcalc", expr])
