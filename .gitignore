@@ -1,0 +1,6 @@
+.vscode/settings.json
+bashcalc/__pycache__/__init__.cpython-37.pyc
+build
+dist
+bashcalc.egg-info
+.coverage
