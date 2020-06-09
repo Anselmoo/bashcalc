@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 """Bashcalc: Evaluating math expression from terminal in terminal"""
-from math import *
-from decimal import *
 import argparse
+from decimal import *
+from math import *
+import sys
+
 
 try:
     from . import __version__
@@ -58,16 +60,10 @@ def log(msg, mode=None):
         Message to print to the terminal.
     mode : int, optional
         If mode is activated, message becomes for:
-        1. an error message 
-        2. a verbose message 
-        3. a warning message
+        1. an error message
     """
     if mode == 1:
         print(f"{ColorFont.red}[ERROR]{ColorFont.default} {msg}")
-    elif mode == 2:
-        print(f"[VERBOSE] {msg}")
-    elif mode == 3:
-        print(f"[WARNING] {msg}")
     else:
         print(msg)
 
@@ -106,9 +102,10 @@ def bashcalc(args):
     args : dict
         Dictionary of the keywords and values from the parser.
     """
+    result = 0
     try:
         result = Decimal(eval(args["infile"]))
-
+    
         if args["round"]:
             try:
                 result = round(result, args["round"])
@@ -125,21 +122,16 @@ def bashcalc(args):
         result = style(result, args)
 
         log(result)
-    except NameError as e_msg:
+    except (NameError, TypeError, SyntaxError) as e_msg:
         log(e_msg, mode=1)
-
-
-def get_args(opt=None):
+    
+def get_args():
     """Get the parser arguments from the command line.
     
     Returns
     -------
     args : dict
         Dictionary of the keywords and values from the parser.
-    Parameters
-    ----------
-    opt : dict, optional
-        Optional Dictionary for modifying the parser arguments; default is None.
     """
     parser = argparse.ArgumentParser(
         description=(
@@ -223,28 +215,12 @@ def get_args(opt=None):
     )
     args = vars(parser.parse_args())
 
-    # For pytest
-    if opt:
-        for item, value in opt.items():
-            args[item] = value
-
     return args
 
 
-def command_line_runner(opt=None):
-    """Run bashcalc() via command line.
-    
-    Parameters
-    ----------
-    opt : dict, optional
-        Optional Dictionary for modifying the parser arguments; default is None.
-    """
+def command_line_runner():
+    """Run bashcalc() via command line."""
     args = get_args()
-
-    # For pytest
-    if opt:
-        for item, value in opt.items():
-            args[item] = value
 
     if args["version"]:
         log(__version__)
