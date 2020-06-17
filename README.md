@@ -3,7 +3,8 @@
 [![CodeFactor](https://img.shields.io/codefactor/grade/github/Anselmoo/bashcalc?logo=codefactor)](https://www.codefactor.io/repository/github/anselmoo/bashcalc)
 [![Code Style: Black](https://img.shields.io/badge/code%20style-black-black.svg)](https://github.com/ambv/black)
 [![GitHub](https://img.shields.io/github/license/Anselmoo/bashcalc?logo=GitHub)](https://github.com/Anselmoo/bashcalc/blob/master/LICENSE)
-
+[![PyPI](https://img.shields.io/pypi/v/bashcalc?logo=pypi&logoColor=yellow)](https://pypi.org/project/bashcalc/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/bashcalc?logo=python&logoColor=yellow)](https://pypi.org/project/bashcalc/)
 # bashcalc
 
 ## Instant calculating from the terminal into the terminal
