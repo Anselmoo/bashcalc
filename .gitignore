@@ -6,3 +6,4 @@ bashcalc.egg-info
 .coverage
 htmlcov
 .pytest_cache
+.DS_Store
